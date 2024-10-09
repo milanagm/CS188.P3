@@ -33,9 +33,9 @@ def question2b():
     """
       Prefer the close exit (+1), but avoiding the cliff (-10).
     """
-    answerDiscount = 0.4
-    answerNoise = 0.0
-    answerLivingReward = 0.0
+    answerDiscount = 0.01
+    answerNoise = 0.01
+    answerLivingReward = 0
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
