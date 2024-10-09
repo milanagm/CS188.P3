@@ -206,15 +206,35 @@ class ApproximateQAgent(PacmanQAgent):
           Should return Q(state,action) = w * featureVector
           where * is the dotProduct operator
         """
-        "*** YOUR CODE HERE ***"
-        return self.weights * self.featExtractor
+        "*** MY CODE HERE ***"
+       # Extrahiere den Merkmalsvektor für den Zustand und die Aktion
+        featureVector = self.featExtractor.getFeatures(state, action)
+        
+        # Berechne das Skalarprodukt zwischen den Gewichtungen und dem Merkmalsvektor
+        q_value = sum(self.weights[feature] * value for feature, value in featureVector.items())
+        
+        return q_value
 
     def update(self, state, action, nextState, reward: float):
         """
            Should update your weights based on transition
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        "*** MY CODE HERE ***"
+         # Extrahiere den Merkmalsvektor für den aktuellen Zustand und die Aktion
+        featureVector = self.featExtractor.getFeatures(state, action)
+
+        current_q_value = self.getQValue(state, action)
+        
+        # max_a' Q(nextState, a')
+        next_max_q_value = self.computeValueFromQValues(nextState)
+        
+        # Temporal-Difference-Fehler (TD-Fehler)
+        td_error = (reward + self.discount * next_max_q_value) - current_q_value
+        
+        # Aktualisiere die Gewichtungen
+        for feature, value in featureVector.items():
+            self.weights[feature] += self.alpha * td_error * value
+
 
     def final(self, state):
         """Called at the end of each game."""
@@ -223,6 +243,9 @@ class ApproximateQAgent(PacmanQAgent):
 
         # did we finish training?
         if self.episodesSoFar == self.numTraining:
-            # you might want to print your weights here for debugging
-            "*** YOUR CODE HERE ***"
-            pass
+          # you might want to print your weights here for debugging
+          "*** MY CODE HERE ***"
+          
+              
+          
+
